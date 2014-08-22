@@ -1,0 +1,9 @@
+Chrome allows for public key pinning, where you can tell it to only
+allow a certain public key for a domain (optionally including
+subdomains). There's a list of hardcoded key and domains, but the UI
+for adding more is a bit awkward.
+
+This tool will extract the public key signature from a host or .crt
+file, and will give you the string you need to plug into Chrome.
+
+Add under chrome://net-internals -> HSTS
