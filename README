@@ -1,9 +1,35 @@
 Chrome allows for public key pinning, where you can tell it to only
 allow a certain public key for a domain (optionally including
-subdomains). There's a list of hardcoded key and domains, but the UI
-for adding more is a bit awkward.
+subdomains).
 
 This tool will extract the public key signature from a host or .crt
 file, and will give you the string you need to plug into Chrome.
+
+The easy thing to pin to is long lived key of the CA you actually use.
+You need to put in at least two keys, so choose another big CA you
+may want to switch to in the future.
+
+This means that only, say, Verisign and Thawte would be able to
+mint fake certs. Not Turktrust, Diginotar, or the Chineese government.
+
+The more complicated setup is to pin to your server key. This can be
+dangerous since if you lose your key, or it gets compromised, then
+you can't just switch to another one. If you go with this option then
+generate a backup key and keep it in a locked safe. And/or use
+very short pinning max-age.
+
+
+Method 1 (preferred)
+--------------------
+Have your server output "Public-Key-Pins" header as described in
+http://tools.ietf.org/html/draft-ietf-websec-key-pinning-20
+
+E.g.:
+Public-Key-Pins: max-age=86400; report-uri="/ping"; pin-sha1="ueoahntueoa="; pin-sha1="thuseoa="
+
+Method 2
+--------
+There's a list of hardcoded keys and domains in Chrome, but the UI
+for adding more is a bit awkward.
 
 Add under chrome://net-internals -> HSTS
